@@ -14,6 +14,14 @@
 // ===================== CONFIGURATION =====================
 #define MAX_BRIGHTNESS 24
 
+#ifndef LED_DATA_PIN
+  #if defined(ARDUINO_ARCH_RP2040)
+    #define LED_DATA_PIN 15
+  #else
+    #define LED_DATA_PIN 5
+  #endif
+#endif
+
 // Display constants (moved to headers)
 #define NUM_LEDS (5*7*NUM_CHARS)  // NUM_CHARS is defined in content_manager.h
 
@@ -199,7 +207,7 @@ void setup() {
   Serial.begin(115200);
   
   // Initialize FastLED
-  FastLED.addLeds<WS2812Controller800Khz, 5, GRB>(leds, NUM_LEDS);
+  FastLED.addLeds<WS2812Controller800Khz, LED_DATA_PIN, GRB>(leds, NUM_LEDS);
   FastLED.setBrightness(MAX_BRIGHTNESS);
 
   // Initialize button
@@ -232,6 +240,7 @@ void setup() {
   int minor = (FASTLED_VERSION / 100) % 1000;
   int patch = FASTLED_VERSION % 100;
   Serial.printf("FastLED version: %d.%d.%d\n", major, minor, patch);
+  Serial.printf("LED data pin: %d\n", LED_DATA_PIN);
   Serial.printf("Number of LEDs: %d\n", NUM_LEDS);
   Serial.printf("Stories loaded: %d\n", contentManager.getStoryCount());
   Serial.printf("Initial color mode: %s\n", contentManager.getColorModeName());
