@@ -1,4 +1,4 @@
-# RGB Message Block
+# RGB Message Block - bk
 
 ![RGB Message Block](./media/rgb-message-block-product.jpg)
 
